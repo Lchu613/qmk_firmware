@@ -7,7 +7,9 @@ enum layer_names {
     _BASE,
     _FN1,
     _FN2,
-    _FN3
+    _FN3,
+    _FNX,
+    _TM
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -21,7 +23,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤
      * │Sft│ Z │ X │ C │ V │ B │ N │ M │ , │ . │ / │   |Mo3|   │
      * ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤
-     * │Ctl│GUI│Alt│   │Spc│Spc│Mut│   |Mo1|Alt│App│Ctl│   │Mo2|
+     * │Ctl│GUI│Alt│   │Spc│Spc│Mut│   |Mo1|Mo3│Alt│Ctl│   │Mo2|
      * └───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┘
      */
     [_BASE] = LAYOUT_all(
@@ -29,7 +31,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
          KC_TAB,     KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,        KC_Y,     KC_U,        KC_I,      KC_O,        KC_P,     KC_LBRC,   KC_RBRC,         KC_BSLS,
         KC_LCTL,     KC_A,     KC_S,     KC_D,     KC_F,     KC_G,        KC_H,     KC_J,        KC_K,      KC_L,     KC_SCLN,     KC_QUOT,                     KC_ENT,
         KC_LSFT,     KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,        KC_N,     KC_M,     KC_COMM,    KC_DOT,     KC_SLSH,                MO(_FN3),
-        KC_LCTL,  KC_LGUI,  KC_LALT,             KC_SPC,   KC_SPC,     KC_MUTE,              MO(_FN1),   KC_RALT,      KC_APP,     KC_RCTL,              MO(_FN2)
+        KC_LCTL,  KC_LGUI,  KC_LALT,             KC_SPC,   KC_SPC,     KC_MUTE,              MO(_FN1),    MO(_FN3),     KC_RALT,     KC_RCTL,              MO(_FN2)
     ),
 
      [_FN1] = LAYOUT_all(
@@ -37,32 +39,50 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_CAPS,  KC_BTN3,  KC_HOME,  KC_MS_U,   KC_END,  KC_BTN1,     KC_PGUP,  KC_HOME,      KC_INS,    KC_END,      KC_DEL,     KC_BSPC,   _______,         _______,
         _______,  KC_BTN4,  KC_MS_L,  KC_MS_D,  KC_MS_R,  KC_BTN2,     KC_LEFT,  KC_DOWN,       KC_UP,   KC_RGHT,     _______,     _______,                    _______,
         _______,  KC_BTN5,  KC_MPRV,  KC_MPLY,  KC_MNXT,  _______,     KC_PGDN,  KC_VOLD,     KC_VOLU,   KC_MUTE,     _______,                _______,
-        _______,  _______,  _______,            _______,  _______,     _______,               _______,   _______,     _______,     _______,              _______
+        _______,  _______,  _______,            _______,  _______,     KC_MPLY,               _______,   _______,     _______,     _______,              MO(_FNX)
     ),
 
     [_FN2] =  LAYOUT_all(
-        KC_GRV ,    KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,       KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,   KC_DEL,
-        KC_CAPS,  _______,  _______,  _______,  RGB_M_R,  _______,     _______,  _______,  _______,  _______,  RGB_M_P,  RGB_RMOD,  RGB_MOD,  RGB_TOG,
-        _______,  _______,  RGB_SAI,  _______,  _______,  _______,     RGB_HUI,  _______,  _______,  _______,  RGB_SPD,   RGB_SPI,            _______,
-        _______,  KC_SLEP,  _______,  _______,  _______,  RGB_VAI,     _______,  _______,  RGB_VAD,  RGB_VAI,  KC_UP,              _______,
-        _______,  _______,  _______,            _______,  _______,     _______,            _______,  KC_LEFT,  KC_DOWN,  KC_RIGHT,           _______
+        KC_GRV ,    KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,       KC_F6,    KC_F7,    KC_F8,    KC_F9,   KC_F10,    KC_F11,   KC_F12,    KC_DEL,
+        KC_CAPS,  _______,  _______,  _______,  RGB_M_R,  _______,     _______,  _______,  _______,  _______,  RGB_M_P,  RGB_RMOD,  RGB_MOD,   RGB_TOG,
+        _______,  _______,  RGB_SAI,  _______,  _______,  _______,     RGB_HUI,  _______,  _______,  _______,  RGB_SPD,   RGB_SPI,             _______,
+        _______,  KC_SLEP,  _______,  _______,  _______,  RGB_VAI,     _______,  _______,  RGB_VAD,  RGB_VAI,  KC_UP,               KC_RSFT, 
+        _______,  _______,  _______,            _______,  _______,     _______,            _______,  KC_LEFT,  KC_DOWN,  KC_RIGHT,             _______
     ),
 
     [_FN3] = LAYOUT_all(
-        KC_GRV,     KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,       KC_F6,    KC_F7,       KC_F8,     KC_F9,      KC_F10,      KC_F11,    KC_F12,          KC_DEL,
+        KC_GRV,     KC_F1,    KC_F2,     KC_F3,    KC_F4,      KC_F5,       KC_F6,    KC_F7,    KC_F8,    KC_F9,   KC_F10,   KC_F11,   KC_F12,   KC_DEL,
         KC_CAPS,  _______,  _______,   _______,  _______,    _______,     _______,  _______,  KC_PSCR,  KC_SCRL,  KC_PAUS,    KC_UP,  _______,  _______,
         _______,  _______,  _______,   _______,  _______,    _______,     _______,  _______,  KC_HOME,  KC_PGUP,  KC_LEFT,  KC_RGHT,            _______,
-        _______,  _______,  _______,   _______,  _______,    _______,     _______,  _______,   KC_END,  KC_PGDN,  KC_DOWN,            _______,
-        _______,  _______,  _______,             _______,    _______,     _______,            _______,  _______,  _______,  _______,           _______
-    )
+        _______,  _______,  _______,   _______,  _______,    _______,     _______,  _______,   KC_END,  KC_PGDN,  KC_DOWN,            KC_RSFT,
+        _______,  _______,  _______,             _______,    _______,     _______,            _______,  _______,  _______,  _______,            _______
+    ),
+
+    [_FNX] = LAYOUT_all(
+        TO(_BASE),_______,  _______,   _______,  _______,    _______,     _______,  _______,  _______,  _______,  _______,  _______,  _______,  QK_BOOT,
+        _______,  _______,  _______,   _______,  _______,    TO(_TM),     _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,
+        _______,  _______,  _______,   _______,  _______,    _______,     _______,  _______,  _______,  _______,  _______,  _______,            _______,
+        _______,  _______,  _______,   _______,  _______,    _______,     _______,  _______,  _______,  _______,  _______,            _______,
+        _______,  _______,  _______,             _______,    _______,     _______,            _______,  _______,  _______,  _______,            _______
+    ),
+
+    [_TM] = LAYOUT_all(
+        _______,  _______,  _______,   _______,  _______,    _______,     _______,  _______,  _______,  _______,  _______,  _______,  KC_PAST,  _______,
+        _______,    KC_P1,    KC_P2,     KC_P3,  _______,    _______,     _______,  _______,    KC_UP,  _______,  _______,  _______,  _______,  _______,
+        _______,  _______,  _______,   _______,  _______,    _______,     _______,  KC_LEFT,  KC_DOWN,  KC_RGHT,  _______,  _______,            _______,
+        _______,  _______,  _______,   _______,  _______,    _______,     _______,  _______,  _______,  _______,  _______,            _______,
+        _______,  _______,  _______,             _______,    _______,     _______,            _______,  _______,  _______,  _______,            _______
+    ),
 };
 
 #if defined(ENCODER_MAP_ENABLE)
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
     [_BASE] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
-    [_FN1]  = { ENCODER_CCW_CW(RGB_HUD, RGB_HUI) },
+    [_FN1]  = { ENCODER_CCW_CW(KC_MPRV, KC_MNXT) },
     [_FN2]  = { ENCODER_CCW_CW(RGB_HUD, RGB_HUI) },
-    [_FN3]  = { ENCODER_CCW_CW(RGB_HUD, RGB_HUI) }
+    [_FN3]  = { ENCODER_CCW_CW(_______, _______) },
+    [_FNX]  = { ENCODER_CCW_CW(_______, _______) },
+    [_TM]   = { ENCODER_CCW_CW(_______, _______) }
 };
 #endif
 

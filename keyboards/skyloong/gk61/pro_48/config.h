@@ -14,4 +14,6 @@
 #define RGB_MATRIX_KEYPRESSES
 #define RGB_MATRIX_FRAMEBUFFER_EFFECTS
 
+#define DYNAMIC_KEYMAP_LAYER_COUNT 6
+
 #define g_suspend_state rgb_matrix_get_suspend_state()
